@@ -17,7 +17,7 @@ class NewGoodsSearch extends NewGoods
     public function rules()
     {
         return [
-            [['id', 'amount_type', 'prices_id', 'initial_price', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'amount_type', 'initial_price', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['name'], 'safe'],
             [['amount'], 'number'],
         ];
@@ -62,7 +62,6 @@ class NewGoodsSearch extends NewGoods
             'id' => $this->id,
             'amount_type' => $this->amount_type,
             'amount' => $this->amount,
-            'prices_id' => $this->prices_id,
             'initial_price' => $this->initial_price,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,

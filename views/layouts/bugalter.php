@@ -14,9 +14,16 @@ use yii\helpers\Url;
         </li>
 
         <li>
-            <a href="<?=Url::to(['user/'])?>" class=" waves-effect">
+            <a href="<?=Url::to(['new-goods/'])?>" class=" waves-effect">
                 <i class="fas fa-users"></i>
-                <span>test Bugalter</span>
+                <span>Yangi maxsulot kiritish</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="<?=Url::to(['product-category/'])?>" class=" waves-effect">
+                <i class="fa fa-sitemap"></i>
+                <span>Yangi maxsulot turini kiritish</span>
             </a>
         </li>
 

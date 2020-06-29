@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\searchModel\NewGoodsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'New Goods';
+$this->title = 'Barcha maxsulotlar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="new-goods-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create New Goods', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Yangi maxsulot kiritish', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'amount_type',
             'amount',
-            'prices_id',
             'initial_price',
             'created_at',
             'created_by',

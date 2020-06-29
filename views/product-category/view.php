@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\UserModel */
+/* @var $model app\models\ProductCategory */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'User Models', 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Product Categories', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="user-model-view">
+<div class="product-category-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Yangi foydalanuvchi kiritish', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Yangi kiritish', ['create'], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Taxrirlash', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('O\'chirish', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -31,11 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'username',
-            'password',
-            'fullname',
-            'auth_key',
-            'role',
+            'name',
             'status',
         ],
     ]) ?>

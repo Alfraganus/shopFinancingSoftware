@@ -35,7 +35,7 @@ class NewGoods extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'amount_type', 'amount', 'initial_price'], 'required'],
-            [['amount_type', 'initial_price', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['amount_type','product_category', 'initial_price', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['amount'], 'number'],
             [['name'], 'string', 'max' => 255],
         ];

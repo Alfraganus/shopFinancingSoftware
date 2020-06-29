@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\NewGoods */
@@ -22,12 +23,17 @@ use yii\widgets\ActiveForm;
     </div>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <?= $form->field($model, 'amount')->textInput() ?>
         </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'amount_type')->dropDownList(\yii\helpers\ArrayHelper::map(\app\models\AmountTypes::find()->all(),'id','name')) ?>
 
+        <div class="col-md-4">
+            <?= $form->field($model, 'amount_type')->dropDownList(ArrayHelper::map(\app\models\AmountTypes::find()->all(),'id','name')) ?>
+        </div>
+
+        <div class="col-md-4">
+            <?= $form->field($model, 'product_category')->dropDownList(ArrayHelper::
+            map(\app\models\ProductCategory::find()->all(),'id','name'))?>
         </div>
     </div>
 
