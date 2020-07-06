@@ -5,20 +5,21 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "product_prices".
+ * This is the model class for table "products_quantity".
  *
  * @property int $id
  * @property int|null $product_id
- * @property int|null $price
+ * @property int|null $quantity
+ * @property int|null $last_changed
  */
-class ProductPrices extends \yii\db\ActiveRecord
+class ProductsQuantity extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'product_prices';
+        return 'products_quantity';
     }
 
     /**
@@ -27,7 +28,7 @@ class ProductPrices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'price','price_id'], 'integer'],
+            [['product_id', 'quantity', 'last_changed'], 'integer'],
         ];
     }
 
@@ -39,9 +40,8 @@ class ProductPrices extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'product_id' => 'Product ID',
-            'price' => 'Price',
+            'quantity' => 'Quantity',
+            'last_changed' => 'Last Changed',
         ];
     }
-
-
 }

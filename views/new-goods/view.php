@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\NewGoods */
 
-$this->title = $model->name;
+$this->title ='yangi kelgan maxsulot nomi';
 $this->params['breadcrumbs'][] = ['label' => 'New Goods', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -26,20 +26,50 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
+<?php Yii::$app->formatter->nullDisplay = 'Ma\'lumot mavjud emas';?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'name',
-            'amount_type',
-            'amount',
+            [
+                'attribute' => 'amount',
+                'value' => function ($model) {
+                    return $model->amount . ' ' . $model->weightType->name;
+                }
+            ],
             'initial_price',
-            'created_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
+            [
+                'attribute'=>'created_at',
+                'value'=> date('d-m-Y H:i',$model->created_at)
+            ],
+            [
+                'attribute'=>'created_by',
+                'value'=>$model->createdPerson->username
+            ],
         ],
     ]) ?>
-
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center">Ushbu  maxsulot uchun qo'yilgan narxlar</h2>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                        <tr>
+                            <th>1-narx</th>
+                            <th>2-narx</th>
+                            <th>3-narx</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                        <?php foreach ($productPrices as $price): ?>
+                            <th style="font-size: 18px"><b><?=$price->price?></b></th>
+                       <?php endforeach; ?>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

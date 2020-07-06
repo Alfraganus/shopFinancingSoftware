@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ProductPrices;
+use app\models\ProductsQuantity;
 use Yii;
 use app\models\NewGoods;
 use app\models\searchModel\NewGoodsSearch;
@@ -53,8 +54,10 @@ class NewGoodsController extends Controller
      */
     public function actionView($id)
     {
+        $productPrices = ProductPrices::find()->where(['product_id'=>$id])->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'productPrices'=>$productPrices
         ]);
     }
 
@@ -68,12 +71,25 @@ class NewGoodsController extends Controller
         $model = new NewGoods();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
            $prices = Yii::$app->request->post('price');
-           foreach ($prices as $price)
+           if(ProductsQuantity::find()->where(['product_category_id'=>$model->product_category])->exists()) {
+               $productModel = ProductsQuantity::find()->where(['product_category_id'=>$model->product_category])->one();
+               $productModel->quantity+=$model->amount;
+               $productModel->save(false);
+           } else {
+               $productModel = new ProductsQuantity();
+               $productModel->product_id = $model->id;
+               $productModel->product_category_id = $model->product_category;
+               $productModel->quantity = $model->amount;
+               $productModel->save(false);
+           }
+            foreach ($prices as $price)
            {
                $product_price = new ProductPrices();
                $product_price->product_id =$model->id;
                $product_price->price = $price;
+               $product_price->price_id=time();
                $product_price->save(false);
            }
            $model->created_at = time();
@@ -97,13 +113,26 @@ class NewGoodsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $productPrices = ProductPrices::find()->where(['product_id'=>$id])->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $prices = Yii::$app->request->post('oldprice');
+            foreach ($productPrices as $key =>$value)
+            {
+                $product_price = ProductPrices::find()->where(['id'=>$value->id])->one();
+                $product_price->product_id =$model->id;
+                $product_price->price = $prices[$key];
+                $product_price->save();
+            }
+            $model->updated_at = time();
+            $model->updated_by = Yii::$app->user->id;
+            $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'productPrices' => $productPrices,
         ]);
     }
 

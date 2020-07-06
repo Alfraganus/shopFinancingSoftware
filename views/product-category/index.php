@@ -24,7 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    if ($model->status == 10) {
+                        return 'Aktiv';
+                    } else {
+                        return 'NoAktiv';
+                    }
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

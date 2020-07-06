@@ -29,7 +29,7 @@ class ProductCategory extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['status'], 'integer'],
-            [['name'], 'string', 'max' => 180],
+            [['name'], 'safe'],
         ];
     }
 

@@ -18,7 +18,6 @@ class NewGoodsSearch extends NewGoods
     {
         return [
             [['id', 'amount_type', 'initial_price', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['name'], 'safe'],
             [['amount'], 'number'],
         ];
     }
@@ -69,7 +68,6 @@ class NewGoodsSearch extends NewGoods
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

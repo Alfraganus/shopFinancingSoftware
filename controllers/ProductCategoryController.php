@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use \yii\helpers\Json;
 /**
  * ProductCategoryController implements the CRUD actions for ProductCategory model.
  */
@@ -67,7 +67,16 @@ class ProductCategoryController extends Controller
         $model = new ProductCategory();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $encoding = Json::encode($model->name);
+            $records= Json::decode($encoding);
+
+            foreach ($records as $key =>$value) {
+                $newRecord = new ProductCategory();
+                $newRecord->name = $records[$key];
+                $newRecord->save(false);
+            }
+            ProductCategory::deleteAll(['name' => 'array']);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
@@ -104,7 +113,9 @@ class ProductCategoryController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->status=0;
+        $model->save(false);
 
         return $this->redirect(['index']);
     }

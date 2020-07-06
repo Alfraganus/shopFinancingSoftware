@@ -34,10 +34,9 @@ class NewGoods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'amount_type', 'amount', 'initial_price'], 'required'],
-            [['amount_type','product_category', 'initial_price', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['amount_type', 'amount', 'initial_price'], 'required'],
+            [['amount_type','product_category', 'initial_price', 'product_category','created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['amount'], 'number'],
-            [['name'], 'string', 'max' => 255],
         ];
     }
 
@@ -57,6 +56,22 @@ class NewGoods extends \yii\db\ActiveRecord
             'created_by' => 'Tizimga kiritgan foydalanuvchi:',
             'updated_at' => 'Taxrirlangan sana',
             'updated_by' => 'Taxrirlagan foydalanuvchi',
+            'product_category'=>'Maxsulot nomi'
         ];
+    }
+
+    public function getWeightType()
+    {
+        return $this->hasOne(AmountTypes::className(), ['id' => 'amount_type']);
+    }
+
+    public function getProductCategory()
+    {
+        return $this->hasOne(ProductCategory::className(), ['id' => 'product_category']);
+    }
+
+    public function getCreatedPerson()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 }
