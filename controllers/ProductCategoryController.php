@@ -6,6 +6,7 @@ use Yii;
 use app\models\ProductCategory;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\helpers\Json;
@@ -35,6 +36,9 @@ class ProductCategoryController extends Controller
      */
     public function actionIndex()
     {
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => ProductCategory::find(),
         ]);
@@ -52,6 +56,9 @@ class ProductCategoryController extends Controller
      */
     public function actionView($id)
     {
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -64,6 +71,9 @@ class ProductCategoryController extends Controller
      */
     public function actionCreate()
     {
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
         $model = new ProductCategory();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -93,6 +103,10 @@ class ProductCategoryController extends Controller
      */
     public function actionUpdate($id)
     {
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -113,6 +127,9 @@ class ProductCategoryController extends Controller
      */
     public function actionDelete($id)
     {
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
         $model = $this->findModel($id);
         $model->status=0;
         $model->save(false);

@@ -44,4 +44,20 @@ class ProductsQuantity extends \yii\db\ActiveRecord
             'last_changed' => 'Last Changed',
         ];
     }
+
+    public function getWeightType()
+    {
+        return $this->hasOne(AmountTypes::className(), ['id' => 'amount_type']);
+    }
+
+    public function getProductCategory()
+    {
+        return $this->hasOne(ProductCategory::className(), ['id' => 'product_category_id']);
+    }
+
+    public function getProductInfo()
+    {
+        return $this->hasOne(NewGoods::className(), ['id' => 'product_id']);
+    }
+
 }

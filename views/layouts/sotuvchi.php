@@ -13,12 +13,5 @@ use yii\helpers\Url;
             </a>
         </li>
 
-        <li>
-            <a href="<?=Url::to(['user/'])?>" class=" waves-effect">
-                <i class="fas fa-users"></i>
-                <span>test Sotuvchi</span>
-            </a>
-        </li>
-
     </ul>
 </div>

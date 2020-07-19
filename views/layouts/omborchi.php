@@ -9,16 +9,23 @@ use yii\helpers\Url;
         <li>
             <a href="<?=\yii\helpers\Url::to(['/'])?>" class="waves-effect">
                 <i class="ri-dashboard-line"></i>
-                <span>Bosh sahifa</span>
+                <span>Yangi maxsulotlar</span>
+            </a>
+        </li>
+        <li>
+            <a href="<?=\yii\helpers\Url::to(['site/left-items'])?>" class="waves-effect">
+                <i class="ri-dashboard-line"></i>
+                <span>Ombordagi maxsulotlar</span>
             </a>
         </li>
 
         <li>
-            <a href="<?=Url::to(['user/'])?>" class=" waves-effect">
-                <i class="fas fa-users"></i>
-                <span>test Omborchi</span>
+            <a href="<?=\yii\helpers\Url::to(['site/warehouse-check-product'])?>" class="waves-effect">
+                <i class="ri-dashboard-line"></i>
+                <span>Yakunlangan xaridlar</span>
             </a>
         </li>
+
 
     </ul>
 </div>

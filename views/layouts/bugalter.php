@@ -16,7 +16,7 @@ use yii\helpers\Url;
         <li>
             <a href="<?=Url::to(['new-goods/'])?>" class=" waves-effect">
                 <i class="fas fa-users"></i>
-                <span>Yangi maxsulot kiritish</span>
+                <span>Yangi maxsulotlar</span>
             </a>
         </li>
 

@@ -16,7 +16,7 @@ use yii\helpers\Url;
         <li>
             <a href="<?=Url::to(['user/'])?>" class=" waves-effect">
                 <i class="fas fa-users"></i>
-                <span>test Admincha</span>
+                <span>Yangi foydalanuvchi qo'shish</span>
             </a>
         </li>
 

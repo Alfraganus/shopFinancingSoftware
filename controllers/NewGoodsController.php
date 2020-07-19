@@ -8,6 +8,7 @@ use Yii;
 use app\models\NewGoods;
 use app\models\searchModel\NewGoodsSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -37,8 +38,12 @@ class NewGoodsController extends Controller
      */
     public function actionIndex()
     {
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
         $searchModel = new NewGoodsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere(['is_confirmed'=>null]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -54,6 +59,9 @@ class NewGoodsController extends Controller
      */
     public function actionView($id)
     {
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
         $productPrices = ProductPrices::find()->where(['product_id'=>$id])->all();
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -66,35 +74,31 @@ class NewGoodsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
+    /* bugalter yangi maxsulot kiritadi*/
     public function actionCreate()
     {
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
+
         $model = new NewGoods();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $prices = Yii::$app->request->post('price');
+            ProductPrices::deleteAll(['category_id' => $model->product_category]);
 
-           $prices = Yii::$app->request->post('price');
-           if(ProductsQuantity::find()->where(['product_category_id'=>$model->product_category])->exists()) {
-               $productModel = ProductsQuantity::find()->where(['product_category_id'=>$model->product_category])->one();
-               $productModel->quantity+=$model->amount;
-               $productModel->save(false);
-           } else {
-               $productModel = new ProductsQuantity();
-               $productModel->product_id = $model->id;
-               $productModel->product_category_id = $model->product_category;
-               $productModel->quantity = $model->amount;
-               $productModel->save(false);
-           }
-            foreach ($prices as $price)
-           {
-               $product_price = new ProductPrices();
-               $product_price->product_id =$model->id;
-               $product_price->price = $price;
-               $product_price->price_id=time();
-               $product_price->save(false);
-           }
-           $model->created_at = time();
-           $model->created_by = Yii::$app->user->id;
-           $model->save(false);
+            foreach ($prices as $price) {
+                $product_price = new ProductPrices();
+                $product_price->category_id = $model->product_category;
+                $product_price->price = $price;
+                $product_price->product_id=$model->id;
+                $product_price->price_id = time();
+                $product_price->save(false);
+            }
+            $model->created_at = time();
+            $model->created_by = Yii::$app->user->id;
+            $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -102,6 +106,8 @@ class NewGoodsController extends Controller
             'model' => $model,
         ]);
     }
+
+
 
     /**
      * Updates an existing NewGoods model.
@@ -112,14 +118,17 @@ class NewGoodsController extends Controller
      */
     public function actionUpdate($id)
     {
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
+
         $model = $this->findModel($id);
-        $productPrices = ProductPrices::find()->where(['product_id'=>$id])->all();
+        $productPrices = ProductPrices::find()->where(['product_id' => $id])->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $prices = Yii::$app->request->post('oldprice');
-            foreach ($productPrices as $key =>$value)
-            {
-                $product_price = ProductPrices::find()->where(['id'=>$value->id])->one();
+            foreach ($productPrices as $key => $value) {
+                $product_price = ProductPrices::find()->where(['id' => $value->id])->one();
                 $product_price->product_id =$model->id;
                 $product_price->price = $prices[$key];
                 $product_price->save();
@@ -145,6 +154,10 @@ class NewGoodsController extends Controller
      */
     public function actionDelete($id)
     {
+
+        if(Yii::$app->user->identity->role!=4){
+            throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -159,6 +172,7 @@ class NewGoodsController extends Controller
      */
     protected function findModel($id)
     {
+
         if (($model = NewGoods::findOne($id)) !== null) {
             return $model;
         }

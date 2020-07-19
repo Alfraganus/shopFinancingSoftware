@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Yangi maxsulot kiritish', ['create'], ['class' => 'btn btn-success pull-right']) ?>
+        <?= Html::a('Yangi maxsulot kiritish', ['create'], ['class' => 'btn btn-success pull-right','style'=>'margin-right:10px']) ?>
     </p>
     <br>
 
@@ -44,9 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'createdPerson.username',
-            //'updated_at',
-            //'updated_by',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

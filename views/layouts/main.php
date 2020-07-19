@@ -38,28 +38,28 @@ AppAsset::register($this);
         <div class="navbar-header">
             <div class="d-flex">
                 <!-- LOGO -->
-                <div class="navbar-brand-box">
-                    <a href="<?= $app->homeUrl; ?>" class="logo logo-dark">
+                <!--<div class="navbar-brand-box">
+                    <a href="<?/*= $app->homeUrl; */?>" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="<?=Yii::$app->homeUrl?>images/logo-sm-dark.png" alt="" height="30">
+                        <img src="<?/*=Yii::$app->homeUrl*/?>images/logo-sm-dark.png" alt="" height="30">
                     </span>
                         <span class="logo-lg">
-                        <img src="<?=Yii::$app->homeUrl?>images/logo-dark.png" alt="" height="35">
+                        <img src="<?/*=Yii::$app->homeUrl*/?>images/logo-dark.png" alt="" height="35">
                     </span>
                     </a>
 
-                    <a href="<?= $app->homeUrl; ?>" class="logo logo-light">
+                    <a href="<?/*= $app->homeUrl; */?>" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="<?=Yii::$app->homeUrl?>images/logo-sm-dark.png" alt="" height="30">
+                        <img src="<?/*=Yii::$app->homeUrl*/?>images/logo-sm-dark.png" alt="" height="30">
                     </span>
                         <span class="logo-lg">
-                        <img src="<?=Yii::$app->homeUrl?>images/logo-dark.png" alt="" height="35">
+                        <img src="<?/*=Yii::$app->homeUrl*/?>images/logo-dark.png" alt="" height="35">
                     </span>
                     </a>
                 </div>
-
+-->
                 <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                    <i class="ri-menu-2-line align-middle"></i>
+                    <i id="vermenu" class="ri-menu-2-line align-middle"></i>
                 </button>
 
                 <!-- App Search-->
@@ -71,27 +71,15 @@ AppAsset::register($this);
                 <div class="dropdown d-inline-block user-dropdown">
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="rounded-circle header-profile-user" src="<?=Yii::$app->homeUrl?>images/users/avatar-2.jpg" alt="Header Avatar">
-                        <span class="d-none d-xl-inline-block ml-1">Avlo Admin</span>
+                        <span class="d-none d-xl-inline-block ml-1"><?=Yii::$app->user->identity->fullname?></span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
                         <!-- item-->
-                        <a class="dropdown-item" href="#">
-                            <i class="ri-user-line align-middle mr-1"></i> Profile
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="ri-wallet-2-line align-middle mr-1"></i> My Wallet
-                        </a>
-                        <a class="dropdown-item d-block" href="#">
-                            <span class="badge badge-success float-right mt-1">11</span>
-                            <i class="ri-settings-2-line align-middle mr-1"></i> Settings
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <i class="ri-lock-unlock-line align-middle mr-1"></i> Lock screen
-                        </a>
+
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="<?= Url::to(['site/logout'])?>" data-method="post">
-                            <i class="ri-shut-down-line align-middle mr-1 text-danger"></i> Logout
+                            <i class="ri-shut-down-line align-middle mr-1 text-danger"></i> Tizimdan chiqish
                         </a>
 
                     </div>
@@ -143,16 +131,7 @@ AppAsset::register($this);
 
         <footer class="footer">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6">
-                        © AVLO UZ. All rights reserved.
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="text-sm-right d-none d-sm-block">
-                            Dashboard version: 0.1.1
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </footer>
     </div>
@@ -204,7 +183,7 @@ AppAsset::register($this);
     </div> <!-- end slimscroll-menu-->
 </div>
 <!-- /Right-bar -->
-
+<?=$this->registerJsFile(Yii::$app->request->BaseUrl . 'dist/js/appp.js', ['position' => $this::POS_HEAD]);?>
 <!-- Right bar overlay-->
 <div class="rightbar-overlay"></div>
 
@@ -212,7 +191,25 @@ AppAsset::register($this);
     .help-block {
         color:red;
     }
+    .select2-container, .select2-selection--single, .select2-selection__rendered {
+        line-height: 12px !important;
+    }
+    .select2-selection__arrow {
+        height: 26px !important;
+    }
+    option {
+        font-size: 20px !important;
+    }
+    .select2-hidden-accessible {
+        font-size: 20px !important;
+    }
+    .select2-results__option {
+        font-size: 24px !important;
+    }
+
 </style>
+
+
 <?php $this->endBody(); ?>
 
 </body>

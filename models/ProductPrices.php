@@ -27,7 +27,7 @@ class ProductPrices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'price','price_id'], 'integer'],
+            [['category_id','product_id', 'price','price_id'], 'integer'],
         ];
     }
 
@@ -38,10 +38,13 @@ class ProductPrices extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'product_id' => 'Product ID',
+            'category_id' => 'Category ID',
             'price' => 'Price',
         ];
     }
+
+
+
 
 
 }

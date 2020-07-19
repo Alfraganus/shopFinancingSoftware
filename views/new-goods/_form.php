@@ -12,7 +12,7 @@ use kartik\select2\Select2;
 
 <div class="new-goods-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['class'=>'btnonce']); ?>
 
     <div class="row">
 
@@ -75,18 +75,11 @@ use kartik\select2\Select2;
 
 
     <div class="form-group">
-        <?= Html::submitButton('Saqlash', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
 </div>
 
-<style>
-    .select2-selection--single,.select2-selection__rendered {
-        line-height: 15px !important;
-    }
-    .select2-selection--single, .select2-selection__arrow {
-        height: 26px !important;
-    }
-</style>
+

@@ -37,6 +37,7 @@ class NewGoods extends \yii\db\ActiveRecord
             [['amount_type', 'amount', 'initial_price'], 'required'],
             [['amount_type','product_category', 'initial_price', 'product_category','created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['amount'], 'number'],
+            [['is_confirmed'],'safe']
         ];
     }
 
@@ -56,9 +57,12 @@ class NewGoods extends \yii\db\ActiveRecord
             'created_by' => 'Tizimga kiritgan foydalanuvchi:',
             'updated_at' => 'Taxrirlangan sana',
             'updated_by' => 'Taxrirlagan foydalanuvchi',
-            'product_category'=>'Maxsulot nomi'
+            'product_category'=>'Maxsulot nomi',
+            'is_transfered'=>'Topshirildi'
         ];
     }
+
+
 
     public function getWeightType()
     {
@@ -74,4 +78,6 @@ class NewGoods extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
+
+
 }
