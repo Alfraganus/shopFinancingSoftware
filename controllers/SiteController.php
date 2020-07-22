@@ -156,9 +156,8 @@ class SiteController extends Controller
         $model = new Sales();
         if (Yii::$app->request->isAjax) {
             $data = Yii::$app->request->post();
-            if($data['date'] = '' or $data['date']==null)
-            {
-                $statisticsDateBegin =strtotime(date('Y-m-d H:i:s'));
+            if($data['date'] = '' or $data['date']==null) {
+                $statisticsDateBegin = strtotime(date('Y-m-d H:i:s'));
                 $statisticsDateFinish = strtotime(date('Y-m-d 23:59:59'));
 
             } else {
@@ -167,11 +166,11 @@ class SiteController extends Controller
             }
 
             $nasiyaPro = SaleNasiya::find()
-                ->where(['nasiya_active'=>1])
-//                ->andWhere(['between','time',$statisticsDateBegin,$statisticsDateFinish])
+                ->where(['nasiya_active' => 1])
+                ->andWhere(['nasiya_returned' => null])
                 ->orderBy('id DESC')
                 ->all();
-           return $nasiyaPro;
+            return $nasiyaPro;
 
         }
     }
@@ -295,11 +294,16 @@ class SiteController extends Controller
 
     public function actionLeftItems()
     {
-        if(Yii::$app->user->identity->role!=3){
+        if(Yii::$app->user->identity->role == 3 ||
+            Yii::$app->user->identity->role ==1 ||
+            Yii::$app->user->identity->role ==4
+        ){
+            $products = ProductsQuantity::find()->orderBy('quantity ASC')->all();
+            return $this->render('left_items',compact('products'));
+        } else {
             throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
         }
-        $products = ProductsQuantity::find()->orderBy('quantity ASC')->all();
-        return $this->render('left_items',compact('products'));
+
     }
 
     /*kassir haridlarni korishi*/
@@ -414,6 +418,75 @@ class SiteController extends Controller
 
         }
     }
+
+
+    /*admin qismda xaridlar sahifasi*/
+    public function actionAdminSales()
+    {
+        $salesRecords = Sales::find()->limit(200)->orderBy('id DESC')->all();
+        return $this->render('admin_sales',compact('salesRecords','model'));
+    }
+
+    /*salelarni excelga exprot qilish*/
+    public function actionExportSales()
+    {
+        $model = New Sales();
+        $statisticsDateBegin = strtotime($model->getStatisticsDateStart($_POST['date_range_2']));
+        $statisticsDateFinish = strtotime($model->getStatisticsDateEnd($_POST['date_range_2']));
+        return $model->ExportSales($statisticsDateBegin,$statisticsDateFinish);
+    }
+
+    /*tolov turlarini excelga export qilish*/
+    public function actionExportPayments()
+    {
+        $model = New PaymentConfirmations();
+        $dateStrtoTime = New Sales();
+        $statisticsDateBegin = strtotime($dateStrtoTime->getStatisticsDateStart($_POST['date_range_2']));
+        $statisticsDateFinish = strtotime($dateStrtoTime->getStatisticsDateEnd($_POST['date_range_2']));
+        return $model->ExportData($statisticsDateBegin,$statisticsDateFinish);
+    }
+
+    /*nasiya savdolarni excelga export qilish*/
+    public function actionExportNasiya()
+    {
+        $model = New SaleNasiya();
+        $dateStrtoTime = New Sales();
+        $statisticsDateBegin = strtotime($dateStrtoTime->getStatisticsDateStart($_POST['date_range_2']));
+        $statisticsDateFinish = strtotime($dateStrtoTime->getStatisticsDateEnd($_POST['date_range_2']));
+        return $model->ExportData($statisticsDateBegin,$statisticsDateFinish);
+    }
+
+    /*barcha tolovlarni monitoring qismi*/
+    public function actionAdminPayments()
+    {
+        $salePaymentTypes = PaymentConfirmations::find()->limit(30)->orderBy('id DESC')->all();
+        return $this->render('admin_payments',compact('salePaymentTypes'));
+    }
+/*nasiyalar monitoring sahifasi*/
+    public  function actionAdminNasiya()
+    {
+        $nasiya = SaleNasiya::find()->where(['nasiya_returned'=>null])->andWhere(['nasiya_active'=>1])->all();
+        return $this->render('admin_nasiya',compact('nasiya'));
+    }
+
+    /*bugalterni nasiyalarni qaytaradigon sahifasi*/
+    public function actionNasiyaReturn()
+    {
+        $nasiya = SaleNasiya::find()->where(['nasiya_returned'=>null])->andWhere(['nasiya_active'=>1])->all();
+        return $this->render('nasiya_return',compact('nasiya'));
+    }
+
+    /*bulgalter nasiyani qaytarish knopkasi*/
+    public function actionNasiyaEmpty($id)
+    {
+        $nasiya =  SaleNasiya::findOne($id);
+        $nasiya->nasiya_returned=10;
+        $nasiya->save(false);
+        Yii::$app->session->setFlash('success', "Nasiya Qaytarildi!");
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+
 
 
     public function actionLogin()

@@ -51,6 +51,8 @@ class NewGoodsController extends Controller
         ]);
     }
 
+
+
     /**
      * Displays a single NewGoods model.
      * @param integer $id

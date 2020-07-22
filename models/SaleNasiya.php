@@ -45,7 +45,7 @@ class SaleNasiya extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'sale_id' => 'Sale ID',
+            'sale_id' => 'Xarid ID',
             'nasiya_amount' => 'Qolayotgan summa',
             'fullname' => 'Nasiyaga olayotgan xaridorning ism sharifi',
             'phone' => 'Xaridorning telefon raqami',
@@ -53,4 +53,33 @@ class SaleNasiya extends \yii\db\ActiveRecord
             'responsible_person' => 'Kafil shaxs',
         ];
     }
+
+    public function ExportData($start,$end)
+    {
+        if(!empty($start) && !empty($end))
+        {
+            $query =  SaleNasiya::find()->where(['between','time',$start,$end])->andWhere(['nasiya_active'=>1])->andWhere(['nasiya_returned'=>null]);
+        } else {
+            $query =  SaleNasiya::find()->where(['nasiya_active'=>1])->andWhere(['nasiya_returned'=>null]);
+        }
+        $file = \Yii::createObject([
+            'class' => 'codemix\excelexport\ExcelFile',
+            'sheets' => [
+                'Users' => [
+                    'class' => 'codemix\excelexport\ActiveExcelSheet',
+                    'query' => $query,
+                    'attributes' => [
+                        'sale_id',
+                        'nasiya_amount',
+                        'fullname',
+                        'phone',
+                        'deadline',
+                        'responsible_person',
+                    ],
+                ]
+            ]
+        ]);
+        return $file->send('nasiya_savdo.xlsx');
+    }
+
 }

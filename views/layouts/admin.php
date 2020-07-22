@@ -20,5 +20,33 @@ use yii\helpers\Url;
             </a>
         </li>
 
+        <li>
+            <a href="<?=Url::to(['site/admin-sales'])?>" class=" waves-effect">
+                <i class="fas fa-users"></i>
+                <span>Savdolar</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="<?=Url::to(['site/left-items'])?>" class=" waves-effect">
+                <i class="fas fa-users"></i>
+                <span>Ombordagi maxsulotlar qoldig'i</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="<?=Url::to(['site/admin-payments'])?>" class=" waves-effect">
+                <i class="fas fa-users"></i>
+                <span>To'lovlar</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="<?=Url::to(['site/admin-nasiya'])?>" class=" waves-effect">
+                <i class="fas fa-users"></i>
+                <span>Nasiya savolar</span>
+            </a>
+        </li>
+
     </ul>
 </div>

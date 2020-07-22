@@ -43,12 +43,38 @@ class PaymentConfirmations extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'sale_id' => 'Sale ID',
-            'payment_type' => 'Payment Type',
-            'payment_amount' => 'Payment Amount',
-            'time' => 'Time',
+            'sale_id' => 'Xarid ID',
+            'payment_type' => 'Tolov turi',
+            'payment_amount' => 'Summa',
+            'time' => 'Vaqt',
         ];
     }
+
+    public function ExportData($start,$end)
+    {
+        if(!empty($start) && !empty($end))
+        {
+            $query =  PaymentConfirmations::find()->where(['between','time',$start,$end]);
+        } else {
+            $query =  PaymentConfirmations::find();
+        }
+        $file = \Yii::createObject([
+            'class' => 'codemix\excelexport\ExcelFile',
+            'sheets' => [
+                'Users' => [
+                    'class' => 'codemix\excelexport\ActiveExcelSheet',
+                    'query' => $query,
+                    'attributes' => [
+                        'sale_id',
+                        'payment_type',
+                        'payment_amount',
+                    ],
+                ]
+            ]
+        ]);
+        return $file->send('savdo_tolov_turlari.xlsx');
+    }
+
 
     public function getSalesman()
     {

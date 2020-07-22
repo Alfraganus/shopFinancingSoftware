@@ -22,8 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status')->dropDownList([
             10=>'Aktiv',
-            0=>'NoAktiv',
-            5=>'Blok'
+            0=>'Blok'
     ]) ?>
 
     <div class="form-group">

@@ -55,6 +55,8 @@ class Sales extends \yii\db\ActiveRecord
             'time' => 'Vaqt',
             'price_id'=>'Narx',
             'salesman' => 'Savdogar',
+            'accountant_confirm'=>'Kassir tasdig\'i',
+            'warehouse_giver_id'=>'Omborchi tasdig\'i'
         ];
     }
 
@@ -187,6 +189,36 @@ class Sales extends \yii\db\ActiveRecord
         }
         return $result;
     }
+
+    public function ExportSales($start,$end)
+    {
+        if(!empty($start) && !empty($end))
+        {
+            $query =  Sales::find()->where(['between','time',$start,$end]);
+        } else {
+            $query =  Sales::find();
+        }
+        $file = \Yii::createObject([
+            'class' => 'codemix\excelexport\ExcelFile',
+            'sheets' => [
+                'Users' => [
+                    'class' => 'codemix\excelexport\ActiveExcelSheet',
+                    'query' => $query,
+                    'attributes' => [
+                        'productCategory.name',
+                        'quantity',
+                        'price.price',
+                        'sale_id',
+                        'salesman',
+                        'accountant_confirm',    // Related attribute
+                        'warehouse_giver_id',
+                    ],
+                ]
+            ]
+        ]);
+        return $file->send('savdo_xisobotlari.xlsx');
+    }
+
 
 /*kartik datepickerni boshlanish sanasi chiqarish*/
     public function GetStatisticsDateStart($date)

@@ -26,6 +26,19 @@ use yii\helpers\Url;
                 <span>Yangi maxsulot turini kiritish</span>
             </a>
         </li>
+        <li>
+            <a href="<?=Url::to(['site/left-items'])?>" class=" waves-effect">
+                <i class="fas fa-users"></i>
+                <span>Ombordagi maxsulotlar qoldig'i</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="<?=Url::to(['site/nasiya-return'])?>" class=" waves-effect">
+                <i class="fa fa-sitemap"></i>
+                <span>Nasiyalar</span>
+            </a>
+        </li>
 
     </ul>
 </div>

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\User;
 use Yii;
 use app\models\UserModel;
 use yii\data\ActiveDataProvider;
@@ -108,7 +109,9 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $user = UserModel::findOne($id);
+        $user->status = 0;
+        $user->save(false);
 
         return $this->redirect(['index']);
     }
