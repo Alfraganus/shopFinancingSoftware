@@ -127,34 +127,30 @@ class Sales extends \yii\db\ActiveRecord
     /*admin chart uchun, 2 sana ortasidagi kunlarni aniqlash*/
     public function printDays($from, $to) {
         $from_date=strtotime($from);
-        $to_date=strtotime($to);
-        $current=$from_date;
-        while($current<=$to_date) {
-            $days[]=date('d', $current);
-            $current=$current+86400;
+        $to_date = strtotime($to);
+        $current = $from_date;
+        while ($current <= $to_date) {
+            $days[] = date('d', $current);
+            $current = $current + 86400;
             $dayCounts[] = $current;
 
         }
+        foreach ($dayCounts as $day) {
+            $starting = strtotime(date('Y-m-d H:i:s', $day - 86400));
+            $finishing = strtotime(date('Y-m-d 23:59:59', $day - 86400));
+            $soldProducts = SalesOverallPayment::find()->where(['between', 'date', $starting, $finishing])->sum('payment_amount');
+            $newProducts = NewGoods::find()->where(['between', 'created_at', $starting, $finishing])->sum('initial_price');
 
-        foreach($dayCounts as $day) {
-            $starting =strtotime(date('Y-m-d H:i:s', $day-86400));
-            $finishing = strtotime(date('Y-m-d 23:59:59', $day-86400));
-            $soldProducts = SalesOverallPayment::find()->where(['between','date',$starting,$finishing])->sum('payment_amount');
-            $newProducts = NewGoods::find()->where(['between','created_at',$starting,$finishing])->sum('initial_price');
-
-            if($soldProducts ==0)
-            {
+            if ($soldProducts == 0) {
                 $soldResult[] = 0;
             } else {
                 $soldResult[] = $soldProducts;
             }
-            if($newProducts==0) {
-                $newProductResult[]=0;
+            if ($newProducts == 0) {
+                $newProductResult[] = 0;
             } else {
-                $newProductResult[]=$newProducts;
+                $newProductResult[] = $newProducts;
             }
-
-
         }
         return ['sold'=>$soldResult,'newPro'=>$newProductResult];
     }
@@ -188,6 +184,12 @@ class Sales extends \yii\db\ActiveRecord
 
         }
         return $result;
+    }
+
+    public function FindMinPrice($product_category)
+    {
+        $productPrice = ProductPrices::find()->where(['category_id'=>$product_category])->min('price');
+        return $productPrice;
     }
 
     public function ExportSales($start,$end)

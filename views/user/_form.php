@@ -15,6 +15,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 <?php if ($model->isNewRecord) : ?>
     <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
+<?php else : ?>
+    <?= $form->field($model, 'tempPassword')->passwordInput(['placeholder' => 'Yangi parol']) ?>
 <?php endif;?>
     <?= $form->field($model, 'fullname')->textInput(['maxlength' => true]) ?>
 

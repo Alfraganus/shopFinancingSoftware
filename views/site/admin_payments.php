@@ -55,7 +55,7 @@ use yii\widgets\ActiveForm;
                         <th>Xarid ID</th>
                         <th>Sana</th>
                         <th>Sotuvchi</th>
-                        <th>Summa</th>
+                        <th>Sotilgan summa</th>
                         <th>To'lov turi</th>
 
                     </tr>

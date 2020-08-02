@@ -15,9 +15,10 @@
         </thead>
         <tbody>
 
-        <?php foreach ($products as $pro): ?>
+        <?php foreach ($products as $index =>  $pro): ?>
+        <?php $index++ ?>
         <tr>
-            <th scope="row">1</th>
+            <th scope="row"><?=$index?></th>
             <td><?=$pro->productCategory->name?></td>
             <td><?=$pro->quantity?> <?= $pro->productInfo->weightType->name?> </td>
 

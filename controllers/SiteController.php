@@ -424,7 +424,8 @@ class SiteController extends Controller
     public function actionAdminSales()
     {
         $salesRecords = Sales::find()->limit(200)->orderBy('id DESC')->all();
-        return $this->render('admin_sales',compact('salesRecords','model'));
+        $minPriceModel = new Sales();
+        return $this->render('admin_sales',compact('salesRecords','minPriceModel'));
     }
 
     /*salelarni excelga exprot qilish*/
@@ -485,9 +486,6 @@ class SiteController extends Controller
         Yii::$app->session->setFlash('success', "Nasiya Qaytarildi!");
         return $this->redirect(Yii::$app->request->referrer);
     }
-
-
-
 
     public function actionLogin()
     {

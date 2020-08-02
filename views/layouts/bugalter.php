@@ -13,10 +13,18 @@ use yii\helpers\Url;
             </a>
         </li>
 
+
         <li>
             <a href="<?=Url::to(['new-goods/'])?>" class=" waves-effect">
                 <i class="fas fa-users"></i>
                 <span>Yangi maxsulotlar</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="<?=Url::to(['site/admin-sales'])?>" class=" waves-effect">
+                <i class="fas fa-users"></i>
+                <span>Barcha savdolar</span>
             </a>
         </li>
 

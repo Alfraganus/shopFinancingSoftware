@@ -76,6 +76,7 @@ class PaymentConfirmations extends \yii\db\ActiveRecord
     }
 
 
+
     public function getSalesman()
     {
         return $this->hasOne(sales::className(), ['sale_id' => 'sale_id']);

@@ -32,8 +32,11 @@ use yii\widgets\ActiveForm;
         <tr>
             <th>Maxsulot nomi</th>
             <th>Sanog'i</th>
-            <th>Summa</th>
+            <th>Umumiy summa</th>
+            <th>Sotilgan summa </th>
+            <th>Sotilishi kerek bo'lgan summa</th>
             <th>Sotib olin(ma)di</th>
+            <th>Sotuvchi</th>
             <th>Vaqt</th>
 
         </tr>
@@ -45,7 +48,8 @@ use yii\widgets\ActiveForm;
                 <td class="text-dark font-weight-bold"><?=$sale->productCategory->name?> </td>
                 <td> <?= $sale->quantity?> </td>
                 <td><?= number_format($sale->price->price*$sale->quantity)?> so'm</td>
-
+                <td><?= number_format($sale->price->price)?> so'm</td>
+                <td><?=number_format($minPriceModel->findMinPrice($sale->product_category))?> so'm</td>
                 <td>
                     <?php if($sale->accountant_confirm == 10 ):?>
                         <div class="badge badge-soft-success font-size-12">Sotib olindi</div>
@@ -53,6 +57,7 @@ use yii\widgets\ActiveForm;
                         <div class="badge badge-soft-warning font-size-12">Sotib olinmadi</div>
                     <?php endif;?>
                 </td>
+                <td><?=$sale->saleperson->fullname?></td>
                 <td><?=date('d-m-Y H:i',$sale->time)?> </td>
 
             </tr>

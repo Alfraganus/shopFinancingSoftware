@@ -48,7 +48,7 @@ $randNumber = date('md').rand(0,999);
                         <td><?=$sale->productCategory->name?></td>
                         <td><?=$sale->quantity?> <?=$sale->newgoods->weightType->name?></td>
                         <td><?=date('d-m-Y H:i',$sale->time)?></td>
-                        <td><?= substr($sale->time, -4);?></td>
+                        <td><?= substr($sale->sale_id, -4);?></td>
                         <td>
                             <?php if($sale->accountant_confirm==null):?>
                             <div class="alert alert-warning">

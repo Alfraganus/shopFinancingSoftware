@@ -23,6 +23,7 @@ class UserModel extends \yii\db\ActiveRecord
     {
         return 'user';
     }
+    public $tempPassword;
 
     /**
      * {@inheritdoc}
@@ -33,6 +34,7 @@ class UserModel extends \yii\db\ActiveRecord
             [['username', 'password', 'fullname', 'role'], 'required'],
             [['role', 'status'], 'integer'],
             [['username', 'password', 'fullname'], 'string', 'max' => 255],
+            [['tempPassword'],'safe']
         ];
     }
 
@@ -48,6 +50,7 @@ class UserModel extends \yii\db\ActiveRecord
             'fullname' => 'Ism Sharif',
             'role' => 'Xuquqi',
             'status' => 'Status',
+            'tempPassword'=>'Yangi parol (agar o\'zgartirilsa)'
         ];
     }
 
