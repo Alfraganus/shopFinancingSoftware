@@ -44,9 +44,10 @@ use yii\helpers\Url;
         <li>
             <a href="<?=Url::to(['site/admin-nasiya'])?>" class=" waves-effect">
                 <i class="fas fa-users"></i>
-                <span>Nasiya savolar</span>
+                <span>Nasiya savdolar</span>
             </a>
         </li>
+
 
     </ul>
 </div>

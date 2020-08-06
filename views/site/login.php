@@ -33,7 +33,7 @@ $this->title = 'Login'; ?>
                                             ->textInput([
                                                 'autofocus' => true,
                                                 'class' => 'input-lg form-control',
-                                                'placeholder' => 'login',
+                                                'placeholder' => 'Loginni kiriting...',
                                             ])->label(false); ?>
                                     </div>
 
@@ -44,7 +44,7 @@ $this->title = 'Login'; ?>
                                             ->passwordInput([
                                                 'autofocus' => true,
                                                 'class' => 'input-lg form-control',
-                                                'placeholder' => 'parol',
+                                                'placeholder' => 'Parolni kiriting',
                                             ])->label(false); ?>
                                     </div>
 

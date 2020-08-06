@@ -7,7 +7,7 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\models\NewGoods */
 /* @var $form yii\widgets\ActiveForm */
-$randNumber = date('md').rand(0,999);
+$randNumber = time();
 ?>
 <!-- start page title -->
 <div class="row">

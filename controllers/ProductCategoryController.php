@@ -76,7 +76,7 @@ class ProductCategoryController extends Controller
         }
         $model = new ProductCategory();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
             $encoding = Json::encode($model->name);
             $records= Json::decode($encoding);
 

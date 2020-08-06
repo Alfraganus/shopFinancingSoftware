@@ -88,10 +88,16 @@ class NewGoodsController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $prices = Yii::$app->request->post('price');
+            $getPrices = ProductPrices::findAll(['category_id' => $model->product_category]);
+            foreach ($getPrices as $price)
+            {
+                $priceId[]=$price->id;
+            }
             ProductPrices::deleteAll(['category_id' => $model->product_category]);
 
-            foreach ($prices as $price) {
+            foreach ($prices as $index => $price) {
                 $product_price = new ProductPrices();
+                $product_price->id =$priceId[$index];
                 $product_price->category_id = $model->product_category;
                 $product_price->price = $price;
                 $product_price->product_id=$model->id;

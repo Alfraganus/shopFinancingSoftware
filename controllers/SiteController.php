@@ -97,14 +97,35 @@ class SiteController extends Controller
                 return $this->redirect(['new-goods/']);
                 break;
             case 5: /*kassir role*/
-                $sales = Sales::find()->select('sale_id')->where(['accountant_confirm'=>null])->groupBy(['sale_id'])->all();
-                $finishedSales = Sales::find()->select('sale_id')->where(['accountant_confirm'=>10])->groupBy(['sale_id'])->limit(50)->all();
+                $sales = Sales::find()->select('sale_id')
+                    ->where(['accountant_confirm'=>null])
+                    ->andwhere(['is_finished'=>10])
+                    ->groupBy(['sale_id'])
+                    ->all();
+                $finishedSales = Sales::find()->select('sale_id')
+                    ->where(['accountant_confirm'=>10])
+                    ->andWhere(['between','time',mktime('0','0','0'),mktime('23','59','59')])
+                    ->groupBy(['sale_id'])->limit(50)
+                    ->all();
                 return $this->render('kassir',compact('sales','finishedSales'));
                 break;
         }
 
         return $this->render('index');
     }
+
+        // savdoni yakunlash
+     public function actionFinishSale($sale_id) {
+
+        $sales = Sales::findAll(['sale_id'=>$sale_id]);
+        foreach ($sales as $sale){
+            $model = Sales::findone(['sale_id'=>$sale->sale_id]);
+            $model->is_finished = 10;
+            $model->account_id = Yii::$app->user->id;
+            $model->save(false);
+        }
+        return $this->redirect(['/']);
+     }
 
     /* admindagi dashboard uchun statistik malumotlarni chiqarish*/
     public function actionAdminDashboard()
@@ -261,7 +282,11 @@ class SiteController extends Controller
     public function actionCancelSale($id)
     {
         $sale = Sales::findOne($id);
-        $sale->delete();
+        if(!empty($sale))
+        {
+            $sale->delete();
+        }
+        
         return $this->redirect(Yii::$app->request->referrer);
     }
 
@@ -308,7 +333,7 @@ class SiteController extends Controller
 
     /*kassir haridlarni korishi*/
 
-    public function actionKassirSale($sale_id)
+   public function actionKassirSale($sale_id)
     {
         if(Yii::$app->user->identity->role!=5){
             throw new ForbiddenHttpException('Sizda ushbu amal uchun ruxsat mavjud emas!');
@@ -363,7 +388,6 @@ class SiteController extends Controller
         }
         return $this->render('kassir_check_sales', compact('sales', 'model','nasiya'));
     }
-
     /**
      * Login action.
      *

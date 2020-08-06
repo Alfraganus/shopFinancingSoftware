@@ -1,4 +1,4 @@
-<?php $this->title = 'Dashboard - AVLO UZ'; ?>
+<?php $this->title = 'Dashboard - Hamkor 24'; ?>
 <!--<div class="page-content">-->
 <!--    <div class="container-fluid">-->
 

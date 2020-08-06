@@ -42,6 +42,7 @@
         <p>Vaqt: <span style="color:darkred"><?= $time?></span></p>
     </div>
 </div>
+ <span style="color:darkred">Sotilgan maxsulotlar faqat 10 kun ichida qaytarib olinadi !!!</span>
 
 
 

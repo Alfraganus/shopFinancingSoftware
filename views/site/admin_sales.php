@@ -20,21 +20,23 @@ use yii\widgets\ActiveForm;
     ]);
     echo '</div>'; ?>
 </div>
-<div class="col-md-2">
-    <button class="btn btn-primary">Excelga export qilish</button>
+<div class="col-md-3">
+    <button class="btn btn-primary">Malumotlar bazasini export qilish</button>
+    <span style="cursor: pointer" class="btn btn-info" onclick="exportTableToExcel('dataExport')">Tablitsani export qilish </span>
 </div>
 
 </div>
 <?php ActiveForm::end(); ?>
 <div class="table-responsive">
-    <table class="table table-centered datatable dt-responsive nowrap" data-page-length="5" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-        <thead class="thead-light">
+    <table id="dataExport" class="table table-centered datatable dt-responsive nowrap" data-page-length="5" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+        <thead class="thead-light" >
         <tr>
-            <th>Maxsulot nomi</th>
+            <th >Maxsulot nomi</th>
             <th>Sanog'i</th>
-            <th>Umumiy summa</th>
-            <th>Sotilgan summa </th>
-            <th>Sotilishi kerek bo'lgan summa</th>
+            <th>Sotilgan summa</th>
+            <th>Xisoblangan summa </th>
+            <th>Sotuvchi foydasi</th>
+            <th>Hamkor foydasi</th>
             <th>Sotib olin(ma)di</th>
             <th>Sotuvchi</th>
             <th>Vaqt</th>
@@ -48,9 +50,10 @@ use yii\widgets\ActiveForm;
                 <td class="text-dark font-weight-bold"><?=$sale->productCategory->name?> </td>
                 <td> <?= $sale->quantity?> </td>
                 <td><?= number_format($sale->price->price*$sale->quantity)?> so'm</td>
-                <td><?= number_format($sale->price->price)?> so'm</td>
-                <td><?=number_format($minPriceModel->findMinPrice($sale->product_category))?> so'm</td>
-                <td>
+		  <td><?= number_format(($sale->quantity)*($minPriceModel->findMinPrice($sale->product_category)))?> so'm</td>
+		<td><?=number_format(($sale->price->price*$sale->quantity)-(($sale->quantity)*($minPriceModel->findMinPrice($sale->product_category))))?> so'm</td>
+                <td> <?=number_format($sale->price->price*$sale->quantity-($sale->newgoods->initial_price*$sale->quantity))?> so'm</td>
+<td>
                     <?php if($sale->accountant_confirm == 10 ):?>
                         <div class="badge badge-soft-success font-size-12">Sotib olindi</div>
                     <?php elseif($sale->accountant_confirm == null) : ?>
@@ -67,3 +70,36 @@ use yii\widgets\ActiveForm;
         </tbody>
     </table>
 </div>
+
+<script>
+    function exportTableToExcel(tableID, filename = 'Savdolar'){
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+        // Specify file name
+        filename = filename?filename+'.xls':'excel_data.xls';
+
+        // Create download link element
+        downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if(navigator.msSaveOrOpenBlob){
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob( blob, filename);
+        }else{
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+            // Setting the file name
+            downloadLink.download = filename;
+
+            //triggering the function
+            downloadLink.click();
+        }
+    }
+</script>

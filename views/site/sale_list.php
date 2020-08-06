@@ -10,6 +10,7 @@ use kartik\select2\Select2;
 /* @var $form yii\widgets\ActiveForm */
 $data = ArrayHelper::map(\app\models\ProductCategory::find()->all(),'id','name');
 $price = ArrayHelper::map(\app\models\ProductPrices::find()->all(),'id','price');
+$is_finished = \app\models\Sales::findone(['sale_id'=>$_GET['rand']]);
 ?>
 
 
@@ -18,7 +19,7 @@ $price = ArrayHelper::map(\app\models\ProductPrices::find()->all(),'id','price')
     <h1 class="float-left"><i style="color: darkred" class="fa fa-university" aria-hidden="true"></i>:  <span style="color: darkred;font-weight: bold" id="inStock"></span></h1>
     <h1 class="float-right"><i style="color: darkred" class="fa fa-handshake" aria-hidden="true"></i>: <span style="color: darkred;font-weight: bold" id="unconfirmedQuantity"></span></h1>
     <div style="clear: both"></div>
-<div class="row">
+<div class="row" style="display:<?=($is_finished->is_finished ==10)?'none':''?>">
 
     <div class="col-md-4">
         <?= $form->field($model, 'product_category')->widget(Select2::classname(), [
@@ -44,17 +45,20 @@ $price = ArrayHelper::map(\app\models\ProductPrices::find()->all(),'id','price')
     </div>
 
 
+
+
+
+    <button style="font-size: 20px;" class="btn btn-primary pull-right" type="submit">Savatchaga qo'shish</button>
+    <?php ActiveForm::end(); ?>
 </div>
 
-
-    <button style="font-size: 20px" class="btn btn-primary" type="submit">Xaridni savatchaga qo'shish va davom ettirish</button>
-    <?php ActiveForm::end(); ?>
-
-
     <br>
-    <?php if(count($sales)>0): ?>
+
     <h1 style="text-align: center;color: blue"><i style="color: blue" class="fa fa-shopping-cart" aria-hidden="true"></i> <?=substr($_GET['rand'],-4)?></h1>
-        <a href="<?=\yii\helpers\Url::to(['/'])?>"><button style="font-size: 20px" class="btn btn-danger"><i class="fa fa-backward" aria-hidden="true"></i> Qaytish</button></a>
+    <?php if(count($sales)>0): ?>
+        <a style="display:<?=($is_finished->is_finished ==10)?'none':''?>" href="<?=\yii\helpers\Url::to(['finish-sale','sale_id'=>$_GET['rand']])?>"><button style="font-size: 20px" class="btn btn-danger"><i class="fa fa-backward" aria-hidden="true"></i> Savdoni yakunlash va qaytish</button></a>
+
+
     <div class="table-responsive-md">
     <table class="table table-striped">
         <thead>
@@ -93,6 +97,7 @@ $price = ArrayHelper::map(\app\models\ProductPrices::find()->all(),'id','price')
     </table>
     </div>
     <?php endif?>
+
     <style>
         .select2-container, .select2-selection--single, .select2-selection__rendered {
             line-height: 12px !important;

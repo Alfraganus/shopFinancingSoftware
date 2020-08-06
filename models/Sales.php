@@ -35,7 +35,7 @@ class Sales extends \yii\db\ActiveRecord
         return [
              [['product_category', 'quantity', 'price_id'], 'required'],
             [['product_category', 'quantity', 'time', 'accountant_confirm','price_id','in_stock','sale_id','warehouse_giver_id','datePicker'], 'safe'],
-          [['salesman'],'integer'],
+          [['salesman','account_id','is_finished'],'integer'],
             ['product_category','checkStock'],
             ['quantity','checkQuantity']
         ];
