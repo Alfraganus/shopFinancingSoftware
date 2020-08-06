@@ -20,6 +20,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+
 class SiteController extends Controller
 {
     /**
@@ -447,8 +448,18 @@ class SiteController extends Controller
     /*admin qismda xaridlar sahifasi*/
     public function actionAdminSales()
     {
-        $salesRecords = Sales::find()->limit(200)->orderBy('id DESC')->all();
+        $salesRecords = Sales::find()
+            ->where(['between','time',mktime('0','0','0'),mktime('23','59','59')])
+            ->orderBy('id DESC')
+            ->all();
         $minPriceModel = new Sales();
+        if ($post = Yii::$app->request->post()) {
+            $statisticsDateBegin = strtotime($minPriceModel->getStatisticsDateStart($_POST['date_range_2']));
+            $statisticsDateFinish = strtotime($minPriceModel->getStatisticsDateEnd($_POST['date_range_2']));
+            $salesRecords = Sales::find()->where(['between','time',$statisticsDateBegin,$statisticsDateFinish])
+                ->orderBy('id DESC')
+                ->all();
+        }
         return $this->render('admin_sales',compact('salesRecords','minPriceModel'));
     }
 
