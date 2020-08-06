@@ -40,7 +40,7 @@ use yii\widgets\ActiveForm;
             <th>Xisoblangan summa </th>
             <th>Sotuvchi foydasi</th>
             <th>Hamkor foydasi</th>
-            <th>Sotib olin(ma)di</th>
+
             <th>Sotuvchi</th>
             <th>Vaqt</th>
 
@@ -63,13 +63,7 @@ use yii\widgets\ActiveForm;
 		  <td><?= number_format(($sale->quantity)*($minPriceModel->findMinPrice($sale->product_category)))?> so'm</td>
 		<td><?= number_format(($sale->price->price*$sale->quantity)-(($sale->quantity)*($minPriceModel->findMinPrice($sale->product_category))))?> so'm</td>
                 <td> <?=number_format($sale->price->price*$sale->quantity-($sale->newgoods->initial_price*$sale->quantity))?> so'm</td>
-<td>
-                    <?php if($sale->accountant_confirm == 10 ):?>
-                        <div class="badge badge-soft-success font-size-12">Sotib olindi</div>
-                    <?php elseif($sale->accountant_confirm == null) : ?>
-                        <div class="badge badge-soft-danger font-size-12">Sotib olinmadi</div>
-                    <?php endif;?>
-                </td>
+
                 <td><?=$sale->saleperson->fullname?></td>
                 <td><?=date('d-m-Y H:i',$sale->time)?> </td>
 
